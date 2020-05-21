@@ -1,0 +1,17 @@
+diff --git a/node_modules/jsforce/lib/http-api.js b/node_modules/jsforce/lib/http-api.js
+index 5b820fc..7c4bdd8 100644
+--- a/node_modules/jsforce/lib/http-api.js
++++ b/node_modules/jsforce/lib/http-api.js
+@@ -159,10 +159,10 @@ HttpApi.prototype.parseResponseBody = function(response) {
+  * @protected
+  */
+ HttpApi.prototype.getResponseBody = function(response) {
+-  if (response.statusCode === 204) { // No Content
++  var body = this.parseResponseBody(response);
++  if (response.statusCode === 204 || (response.statusCode === 201 && !body)) { // No Content
+     return this._noContentResponse;
+   }
+-  var body = this.parseResponseBody(response);
+   var err;
+   if (this.hasErrorInResponseBody(body)) {
+     err = this.getError(response, body);
